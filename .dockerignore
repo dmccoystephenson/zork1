@@ -16,4 +16,4 @@ LICENSE
 *.xzap
 *.zip
 
-# Only include the compiled game file in COMPILED/
+# COMPILED/ directory is included by default (contains the game file)
