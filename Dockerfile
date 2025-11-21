@@ -7,7 +7,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user to run the game (frotz won't run as root)
+# Create a non-root user to run the game (security best practice for containers)
 RUN useradd -m -s /bin/bash zork
 
 # Create directory for the game
