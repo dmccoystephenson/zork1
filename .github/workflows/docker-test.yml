@@ -31,14 +31,11 @@ jobs:
         
         # Test with actual TTY allocation (requires script command for CI)
         echo "Testing interactive mode with TTY..."
-        set +e
-        echo -e "quit\ny\n" | script -q -c "timeout 5s docker run -it zork1:test" /dev/null 2>&1 | grep -q "ZORK I"
-        if [ $? -eq 0 ]; then
+        if echo -e "quit\ny\n" | script -q -c "timeout 5s docker run -it zork1:test" /dev/null 2>&1 | grep -q "ZORK I"; then
           echo "✓ Interactive mode works - game starts correctly"
         else
           echo "⚠ Interactive mode test inconclusive (may be TTY limitations in CI)"
         fi
-        set -e
         
         echo "✓ Docker container validated successfully!"
         
