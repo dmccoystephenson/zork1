@@ -31,3 +31,34 @@ __What is the Purpose of this Repository__
 This collection is meant for education, discussion, and historical work, allowing researchers and students to study how code was made for these interactive fiction games and how the system dealt with input and processing.
 
 Researchers are encouraged to share their discoveries about the information in this source code and the history of Infocom and its many innovative employees.
+
+## Playing the Game
+
+This repository includes a compiled Z-machine file (`COMPILED/zork1.z3`) that can be played using Docker with a single command.
+
+### Using Docker (Recommended)
+
+If you have Docker installed, you can play Zork I directly without installing any additional software:
+
+```bash
+docker build -t zork1 .
+docker run -it zork1
+```
+
+Or as a single command:
+
+```bash
+docker run -it $(docker build -q .)
+```
+
+The Docker container includes the Frotz Z-machine interpreter and is configured to run the game automatically when started.
+
+### Other Methods
+
+If you prefer not to use Docker, you can play the game using any Z-machine interpreter:
+
+- **Frotz** (Linux/macOS/Windows): `frotz COMPILED/zork1.z3`
+- **Gargoyle** (Cross-platform): Open the file through the GUI
+- **Zoom** (macOS): `zoom COMPILED/zork1.z3`
+
+Install these interpreters using your system's package manager or download them from their respective websites.

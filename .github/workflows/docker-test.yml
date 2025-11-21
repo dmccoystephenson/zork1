@@ -1,0 +1,37 @@
+name: Docker Build and Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  docker-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Build Docker image
+      run: docker build -t zork1:test .
+      
+    - name: Test Docker container starts
+      run: |
+        # Test that the container starts and the game loads
+        # We send 'quit' and 'y' to exit the game gracefully
+        timeout 10s docker run -i zork1:test << EOF || test $? -eq 124
+        quit
+        y
+        EOF
+        
+        echo "Docker container started successfully!"
+        
+    - name: Verify game file exists in container
+      run: |
+        docker run --rm zork1:test ls -lh zork1.z3
+        
+    - name: Check container size
+      run: |
+        docker images zork1:test --format "Size: {{.Size}}"
