@@ -23,7 +23,7 @@ jobs:
     - name: Test Docker container starts
       run: |
         # Verify the container runs and has the game file
-        docker run --rm zork1:test test -f zork1.z3 && echo "✓ Game file accessible"
+        docker run --rm zork1:test test -f /game/zork1.z3 && echo "✓ Game file accessible"
         
         # Test that frotz is installed and accessible
         if docker run --rm zork1:test /usr/games/frotz --help > /dev/null 2>&1; then
@@ -46,7 +46,7 @@ jobs:
         
     - name: Verify game file exists in container
       run: |
-        docker run --rm zork1:test ls -lh zork1.z3
+        docker run --rm zork1:test ls -lh /game/zork1.z3
         
     - name: Check container size
       run: |
