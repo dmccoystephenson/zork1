@@ -51,3 +51,15 @@ jobs:
     - name: Check container size
       run: |
         docker images zork1:test --format "Size: {{.Size}}"
+        
+    - name: Test volume mount for persistent saves
+      run: |
+        # Test with Docker named volume
+        docker volume create zork-test-saves
+        docker run --rm -v zork-test-saves:/saves zork1:test touch /saves/test.txt
+        
+        # Verify file persists
+        docker run --rm -v zork-test-saves:/saves zork1:test test -f /saves/test.txt && echo "✓ Volume mount works - saves persist"
+        
+        # Cleanup
+        docker volume rm zork-test-saves

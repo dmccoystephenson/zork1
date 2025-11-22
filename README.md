@@ -53,6 +53,27 @@ docker run -it $(docker build -q .)
 
 The Docker container includes the Frotz Z-machine interpreter and is configured to run the game automatically when started.
 
+#### Persisting Save Files
+
+To save your game progress and restore it later, mount a volume to persist save files:
+
+```bash
+# Create a local directory for saves (with proper permissions)
+mkdir -p zork-saves
+chmod 777 zork-saves  # Allow container user to write
+
+# Run with volume mount
+docker run -it -v "$(pwd)/zork-saves:/saves" zork1
+```
+
+Alternatively, use a Docker named volume (recommended for better portability):
+
+```bash
+docker run -it -v zork-saves:/saves zork1
+```
+
+When you use the `save` command in the game, files will be saved to the mounted volume and persist between container runs. Use the `restore` command to load your saved games.
+
 ### Other Methods
 
 If you prefer not to use Docker, you can play the game using any Z-machine interpreter:
