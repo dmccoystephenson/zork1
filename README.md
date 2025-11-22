@@ -71,15 +71,15 @@ This is the simplest and most portable option. Docker automatically creates the 
 # Create a local directory for saves
 mkdir -p zork-saves
 
-# Option 1: Set permissions to allow container user to write (simple but less secure)
+# Option 1: Run with your user ID (recommended - most secure)
+docker run -it --user $(id -u):$(id -g) -v "$(pwd)/zork-saves:/saves" zork1
+
+# Option 2: Set world-writable permissions (simple but less secure)
 chmod 777 zork-saves
 docker run -it -v "$(pwd)/zork-saves:/saves" zork1
-
-# Option 2: Run with your user ID (recommended for bind mounts)
-docker run -it --user $(id -u):$(id -g) -v "$(pwd)/zork-saves:/saves" zork1
 ```
 
-> **Note:** Option 2 is more secure as it avoids world-writable permissions.
+> **Security Note:** Option 1 is recommended as it avoids world-writable permissions.
 
 When you use the `save` command in the game, files will be saved to the mounted volume and persist between container runs. Use the `restore` command to load your saved games.
 
