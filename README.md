@@ -31,3 +31,64 @@ __What is the Purpose of this Repository__
 This collection is meant for education, discussion, and historical work, allowing researchers and students to study how code was made for these interactive fiction games and how the system dealt with input and processing.
 
 Researchers are encouraged to share their discoveries about the information in this source code and the history of Infocom and its many innovative employees.
+
+## Playing the Game
+
+This repository includes a compiled Z-machine file (`COMPILED/zork1.z3`) that can be played using Docker with a single command.
+
+### Using Docker (Recommended)
+
+If you have Docker installed, you can play Zork I directly without installing any additional software:
+
+```bash
+docker build -t zork1 .
+docker run -it zork1
+```
+
+Or as a single command:
+
+```bash
+docker run -it $(docker build -q .)
+```
+
+The Docker container includes the Frotz Z-machine interpreter and is configured to run the game automatically when started.
+
+#### Persisting Save Files
+
+To save your game progress and restore it later, mount a volume to persist save files.
+
+**Using Docker named volume (recommended):**
+
+```bash
+docker run -it -v zork-saves:/saves zork1
+```
+
+This is the simplest and most portable option. Docker automatically creates the volume with proper permissions.
+
+**Using a bind mount (advanced):**
+
+```bash
+# Create a local directory for saves
+mkdir -p zork-saves
+
+# Option 1: Run with your user ID (recommended - most secure)
+docker run -it --user $(id -u):$(id -g) -v "$(pwd)/zork-saves:/saves" zork1
+
+# Option 2: Set world-writable permissions (simple but less secure)
+chmod 777 zork-saves
+docker run -it -v "$(pwd)/zork-saves:/saves" zork1
+```
+
+> **Security Note:** Option 1 is recommended as it avoids world-writable permissions.
+
+When you use the `save` command in the game, files will be saved to the mounted volume and persist between container runs. Use the `restore` command to load your saved games.
+
+### Other Methods
+
+If you prefer not to use Docker, you can play the game using any Z-machine interpreter:
+
+- **Frotz** (Linux/macOS/Windows): `frotz COMPILED/zork1.z3`
+- **Gargoyle** (Cross-platform): Open the file through the GUI
+- **Zoom** (macOS): `zoom COMPILED/zork1.z3`
+
+Install these interpreters using your system's package manager or download them from their respective websites.

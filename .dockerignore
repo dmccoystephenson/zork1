@@ -1,0 +1,19 @@
+# Git files
+.git
+.github
+
+# Documentation and license
+README.md
+LICENSE
+
+# Source code files (not needed for runtime)
+*.zil
+*.cmp
+*.chart
+*.errors
+*.record
+*.serial
+*.xzap
+*.zip
+
+# COMPILED/ directory is included by default (contains the game file)
